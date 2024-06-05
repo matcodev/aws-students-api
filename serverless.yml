@@ -1,0 +1,80 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: apistudentv1
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: aws-api-students
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: aws-lamda-crud-students
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: sa-east-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: "arn:aws:dynamodb:sa-east-1:730335531559:table/Students"
+
+functions:
+  app:
+    handler: src/server.handler
+    events:
+      - http:
+          path: /
+          method: any
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
+  addStudent:
+    handler: src/addStudent.addStudent
+    events:
+      - httpApi:
+          path: /student
+          method: post
+  getStudents:
+    handler: src/getStudents.getStudents
+    events:
+      - httpApi:
+          path: /students
+          method: get
+  getStudent:
+    handler: src/getStudent.getStudent
+    events:
+      - httpApi:
+          path: /student/{id}
+          method: get
+  updateStudent:
+    handler: src/updateStudent.updateStudent
+    events:
+      - httpApi:
+          path: /student/{id}
+          method: put
+  deleteStudent:
+    handler: src/deleteStudent.deleteStudent
+    events:
+      - httpApi:
+          path: /student/{id}
+          method: delete
+
+resources:
+  Resources:
+    StudentsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Students
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dynamodb-local
+  - serverless-offline
