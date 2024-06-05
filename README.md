@@ -1,4 +1,15 @@
-# Nombre del Proyecto
+<!--
+title: 'AWS Simple HTTP Endpoint example in NodeJS'
+description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
+layout: Doc
+framework: v4
+platform: AWS
+language: nodeJS
+authorLink: 'https://github.com/serverless'
+authorName: 'Serverless, Inc.'
+authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
+-->
+# LambdaExpressAPI-students
 
 ## Descripción
 
@@ -67,18 +78,6 @@ Para desplegar esta aplicación en AWS Lambda, sigue estos pasos:
 
 Nota: Este proyecto está configurado para usar el paquete `serverless-http`, que permite a Express.js funcionar en AWS Lambda.
 
-
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v4
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, Inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
 
 # Serverless Framework Node HTTP API on AWS
 
