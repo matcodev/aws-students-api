@@ -1,12 +1,21 @@
 import express, { Express, Router } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import fs from 'fs';
 import * as serverless from 'aws-serverless-express';
-import path from 'path';
 
 const app: Express = express();
 
 const router: Router = express.Router();
+
+function verifyApiKey(req: express.Request, res: express.Response, next: express.NextFunction) {
+  const apiKey = req.header('X-API-KEY');
+  if (!apiKey || apiKey !== process.env.API_KEY) {
+    res.status(401).json({ error: 'Unauthorized' });
+  } else {
+    next();
+  }
+}
+
+router.use(verifyApiKey);
 
 const swaggerDocument = require('../swagger.json');
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
