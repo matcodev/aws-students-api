@@ -78,6 +78,47 @@ Para desplegar esta aplicación en AWS Lambda, sigue estos pasos:
 
 Nota: Este proyecto está configurado para usar el paquete `serverless-http`, que permite a Express.js funcionar en AWS Lambda.
 
+------
+
+## Pruebas
+
+Este proyecto utiliza [Jest](https://jestjs.io/) para realizar pruebas unitarias. Aquí tienes algunos ejemplos de cómo podrías escribir y ejecutar pruebas para las rutas de tu API:
+
+```typescript
+// tests/students.test.ts
+import request from 'supertest';
+import app from '../src/app';
+
+describe('GET /students', () => {
+  it('should return a list of students', async () => {
+    const res = await request(app).get('/students');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('students');
+  });
+});
+
+describe('PUT /students/:id', () => {
+  it('should update a student', async () => {
+    const res = await request(app).put('/students/1').send({
+      firstName: 'John',
+      lastName: 'Doe',
+      age: 20,
+      grade: 'A'
+    });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('student');
+    expect(res.body.student.firstName).toEqual('John');
+  });
+});
+
+describe('DELETE /students/:id', () => {
+  it('should delete a student', async () => {
+    const res = await request(app).delete('/students/1');
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('message');
+    expect(res.body.message).toEqual('Student deleted');
+  });
+});
 
 # Serverless Framework Node HTTP API on AWS
 
